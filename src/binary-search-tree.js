@@ -72,10 +72,60 @@ module.exports = class BinarySearchTree {
     }
   }
 
-  remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  remove(data) {
+    //put in node returned result
+    this.treeRoot = removeNode(this.treeRoot, data)
+
+    function removeNode(node, data) {
+      if(!node) {
+        return null
+      } 
+
+      if(node.data > data) {
+        node.left = removeNode(node.left, data)
+        return node
+      }
+
+      else if(node.data < data) {
+        node.right = removeNode(node.right, data)
+        return node
+      }
+      
+      else {
+        //if it's a leaf
+        if(!node.left && !node.right) {
+          return null
+        }
+
+        if(!node.right) {
+          node = node.left
+          return node
+        }
+
+        if(!node.left) {
+         node = node.right
+         return node
+        }
+
+        //if has both of child
+          let rightMin = node.right // from right min
+
+          while(rightMin.left) {
+            rightMin = rightMin.left
+          }
+
+          node.data = rightMin.data
+          node.right =  removeNode(node.right, rightMin.data)
+          return node
+      }
+    }
   }
+  
+               //     2
+               // 1        7
+               //        4   8
+                //              32
+                //           12    14
 
   min() {
    if(!this.treeRoot) {
